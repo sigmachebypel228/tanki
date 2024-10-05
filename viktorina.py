@@ -29,7 +29,7 @@ for i in range(5):
     else:
         print(f'Неправильно! Правильный ответ {question[1]} .')
 if points == 5:
-    print(f'Удивительно , {student}, ты настоящий знаток математики!')
+    print(f'Удивительно , {student}, ты настоящий знаток географии!')
 elif points >= 3:
     print(f'Молодец, {student}.Ты справился на {points} правильных ответов.')
 else:
