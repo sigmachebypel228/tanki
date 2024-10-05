@@ -31,4 +31,3 @@ total = 0
 for element in my_list:
     total += element
 print(f"Сумма элементов списка: {total}")
-
