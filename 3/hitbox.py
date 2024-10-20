@@ -29,16 +29,16 @@ class Hitbox:
         if y <0:
             y = 0
         self.__y= y
-    def get_top(self):
+    def __get_top(self):
         return self.y
 
-    def get_bottom(self):
+    def __get_bottom(self):
         return self.y + self.height
 
-    def get_left(self):
+    def __get_left(self):
         return self.x
 
-    def get_right(self):
+    def __get_right(self):
         return self.x+self.width
 
     def moveto(self, x, y):
