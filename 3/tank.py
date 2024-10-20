@@ -3,7 +3,7 @@ from hitbox import Hitbox
 class Tank:
     __count=0
     __SIZE = 100
-    def __init__(self,canvas,x,y,model = 'Т-14 Армата',ammo= 100, speed= 10, file_up= '../forward.png',file_down= '../down.png',file_left= '../left.png',file_right= '../right.png'):
+    def __init__(self,canvas,x,y,model = 'Т-14 Армата',ammo= 100, speed= 10, file_up= '../img/forward.png',file_down= '../img/down.png',file_left= '../img/left.png',file_right= '../img/right.png'):
         Tank.__count+=1
         self.__hitbox = Hitbox(x, y, Tank.__SIZE, Tank.__SIZE)
         self.__skin_up = PhotoImage(file = file_up)
