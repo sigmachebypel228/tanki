@@ -12,6 +12,7 @@ def update():
 def check_collision():
     if player.intersects(enemy):
         print('Столкновение танков')
+        player.undo_move()
 
 def key_press(event):
     if event.keycode == KEY_W:
