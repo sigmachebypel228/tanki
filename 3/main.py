@@ -7,12 +7,15 @@ KEY_D= 68
 FPS = 90
 def update():
     player.update()
+    enemy.update()
     w.after(1000//FPS,update)
     check_collision()
 def check_collision():
-    if player.intersects(enemy):
-        print('Столкновение танков')
-        player.undo_move()
+    player.intersects(enemy)
+
+    enemy.intersects(player)
+
+
 
 def key_press(event):
     if event.keycode == KEY_W:
@@ -31,8 +34,9 @@ w.title('Таник на минималках 2.0')
 
 canv = Canvas(w, width = 800, height = 600,bg = 'alice blue')
 canv.pack()
-player = Tank(canvas = canv, x = 100, y =50, ammo = 100,speed=1)
-enemy = Tank(canvas=canv, x=300, y=300, ammo=100)
+player = Tank(canvas = canv, x = 100, y =50, ammo = 100,speed=2, bot = False)
+enemy = Tank(canvas=canv, x=300, y=300, ammo=100, speed=2, bot=True)
+enemy.set_target(player)
 w.bind('<KeyPress>',key_press)
 update()
 w.mainloop()

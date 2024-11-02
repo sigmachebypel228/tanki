@@ -1,16 +1,18 @@
 from tkinter import PhotoImage
 from hitbox import Hitbox
+from random import randint
 class Tank:
     __count=0
     __SIZE = 100
-    def __init__(self,canvas,x,y,model = 'Т-14 Армата',ammo= 100, speed= 5, file_up= '../img/forward.png',file_down= '../img/down.png',file_left= '../img/left.png',file_right= '../img/right.png'):
+    def __init__(self,canvas,x,y,model = 'Т-14 Армата',ammo= 100, speed= 5, file_up= '../img/forward.png',file_down= '../img/down.png',file_left= '../img/left.png',file_right= '../img/right.png',
+                 bot = True):
         Tank.__count+=1
-
+        self.__target = None
         self.__skin_up = PhotoImage(file = file_up)
         self.__skin_down = PhotoImage(file=file_down)
         self.__skin_left = PhotoImage(file=file_left)
         self.__skin_right = PhotoImage(file=file_right)
-        self.__hitbox = Hitbox(x, y, self.get_size(), self.get_size())
+        self.__hitbox = Hitbox(x, y, self.get_size(), self.get_size(), padding=0)
         self.__canvas = canvas
         self.__model = model
         self.__dx = 0
@@ -24,6 +26,8 @@ class Tank:
         self.__speed = speed
         self.__x = x
         self.__y = y
+        self.__bot = bot
+
         if self.__x<0:
             self.__x = 0
         if self.__y<0:
@@ -31,6 +35,36 @@ class Tank:
 
         self.__create()
         self.right()
+    def __AI_goto_target(self):
+        if randint(1,2)==1:
+            if self.__target.get_x()<self.get_x():
+                self.left()
+            else:
+                self.right()
+        else:
+            if self.__target.get_y()<self.get_y():
+                self.forward()
+            else:
+                self.backward()
+    def set_target(self, target):
+        self.__target = target
+
+    def __AI(self):
+        if randint(1,30)==1 :
+            if randint(1,10)<9 and self.__target is not None:
+                self.__AI_goto_target()
+            else:
+                self.__AI_change_orientation()
+    def __AI_change_orientation(self):
+        rand = randint(0,3)
+        if rand == 0:
+            self.left()
+        if rand == 1:
+            self.forward()
+        if rand == 2:
+            self.right()
+        if rand == 3:
+            self.backward()
 
     def fire(self):
         if self.__ammo>0:
@@ -61,6 +95,8 @@ class Tank:
         self.__canvas.itemconfig(self.id, image=self.__skin_right)
     def update(self):
         if  self.__fuel > self.__speed:
+            if self.__bot:
+                self.__AI()
             self.__dx= self.__vx * self.__speed
             self.__dy= self.__vy * self.__speed
             self.__x+= self.__dx
@@ -68,12 +104,16 @@ class Tank:
             self.__fuel -= self.__speed
             self.__update_hitbox()
             self.__repaint()
-    def undo_move(self):
+    def __undo_move(self):
+        if self.__dx == 0 and self.__dy == 0:
+            return
         self.__x -=self.__dx
         self.__y -= self.__dy
-        self.__fuel += self.__speed
         self.__update_hitbox()
         self.__repaint()
+        self.__dx = 0
+        self.__dy = 0
+
     def __create(self):
         self.id = self.__canvas.create_image(self.__x, self.__y, image=self.__skin_up, anchor='nw')
 
@@ -84,7 +124,12 @@ class Tank:
         self.__hitbox.moveto(self.__x, self.__y)
 
     def intersects(self, other_tank):
-        return self.__hitbox.intersects(other_tank.__hitbox)
+        value =  self.__hitbox.intersects(other_tank.__hitbox)
+        if value:
+            self.__undo_move()
+            if self.__bot:
+                self.__AI_change_orientation()
+        return value
 
     def get_x(self):
         return self.__x
