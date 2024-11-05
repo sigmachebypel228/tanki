@@ -1,9 +1,10 @@
-from tkinter import PhotoImage
+from tkinter import PhotoImage, NW
+import world
 from hitbox import Hitbox
 from random import randint
 class Tank:
     __count=0
-    __SIZE = 100
+
     def __init__(self,canvas,x,y,model = 'Т-14 Армата',ammo= 100, speed= 5, file_up= '../img/forward.png',file_down= '../img/down.png',file_left= '../img/left.png',file_right= '../img/right.png',
                  bot = True):
         Tank.__count+=1
@@ -35,6 +36,11 @@ class Tank:
 
         self.__create()
         self.right()
+    def __world_walls(self):
+        if self.__hitbox.top < 0 or self.__hitbox.bottom> world.HEIGHT or self.__hitbox.left < 0 or self.__hitbox.right>world.WIDTH:
+            self.__undo_move()
+            if self.__bot:
+                self.__AI_change_orientation()
     def __AI_goto_target(self):
         if randint(1,2)==1:
             if self.__target.get_x()<self.get_x():
@@ -103,6 +109,7 @@ class Tank:
             self.__y+= self.__dy
             self.__fuel -= self.__speed
             self.__update_hitbox()
+            self.__world_walls()
             self.__repaint()
     def __undo_move(self):
         if self.__dx == 0 and self.__dy == 0:
@@ -115,7 +122,7 @@ class Tank:
         self.__dy = 0
 
     def __create(self):
-        self.id = self.__canvas.create_image(self.__x, self.__y, image=self.__skin_up, anchor='nw')
+        self.id = self.__canvas.create_image(self.__x, self.__y, image=self.__skin_up, anchor=  NW)
 
     def __repaint(self):
         self.__canvas.moveto(self.id, x=self.__x, y=self.__y)
