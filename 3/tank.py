@@ -99,6 +99,9 @@ class Tank:
         self.__vx = +1
         self.__vy = 0
         self.__canvas.itemconfig(self.id, image=self.__skin_right)
+    def stop(self):
+        self.__vx = 0
+        self.__vy =0
     def update(self):
         if  self.__fuel > self.__speed:
             if self.__bot:
@@ -125,7 +128,7 @@ class Tank:
         self.id = self.__canvas.create_image(self.__x, self.__y, image=self.__skin_up, anchor=  NW)
 
     def __repaint(self):
-        self.__canvas.moveto(self.id, x=self.__x, y=self.__y)
+        self.__canvas.moveto(self.id, x = world.get_screen_x(self.__x),y = world.get_screen_y(self.__y))
 
     def __update_hitbox(self):
         self.__hitbox.moveto(self.__x, self.__y)
