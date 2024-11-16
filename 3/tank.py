@@ -2,6 +2,7 @@ from tkinter import PhotoImage, NW
 import world
 from hitbox import Hitbox
 from random import randint
+import texture as skin
 class Tank:
     __count=0
 
@@ -9,10 +10,10 @@ class Tank:
                  bot = True):
         Tank.__count+=1
         self.__target = None
-        self.__skin_up = PhotoImage(file = file_up)
-        self.__skin_down = PhotoImage(file=file_down)
-        self.__skin_left = PhotoImage(file=file_left)
-        self.__skin_right = PhotoImage(file=file_right)
+        #self.__skin_up = PhotoImage(file = file_up)
+        #self.__skin_down = PhotoImage(file=file_down)
+        #self.__skin_left = PhotoImage(file=file_left)
+        #self.__skin_right = PhotoImage(file=file_right)
         self.__hitbox = Hitbox(x, y, self.get_size(), self.get_size(), padding=-2)
         self.__canvas = canvas
         self.__model = model
@@ -81,7 +82,7 @@ class Tank:
     def forward(self):
         self.__vx = 0
         self.__vy = -1
-        self.__canvas.itemconfig(self.id,image =self.__skin_up)
+        self.__canvas.itemconfig(self.id,image = skin.get('file_up'))
 
 
 
@@ -90,15 +91,15 @@ class Tank:
 
         self.__vx = 0
         self.__vy = +1
-        self.__canvas.itemconfig(self.id, image=self.__skin_down)
+        self.__canvas.itemconfig(self.id, image = skin.get('file_down'))
     def left(self):
         self.__vx = -1
         self.__vy = 0
-        self.__canvas.itemconfig(self.id, image=self.__skin_left)
+        self.__canvas.itemconfig(self.id, image=skin.get('file_left'))
     def right(self):
         self.__vx = +1
         self.__vy = 0
-        self.__canvas.itemconfig(self.id, image=self.__skin_right)
+        self.__canvas.itemconfig(self.id, image=skin.get('file_right'))
     def stop(self):
         self.__vx = 0
         self.__vy =0
@@ -125,7 +126,7 @@ class Tank:
         self.__dy = 0
 
     def __create(self):
-        self.id = self.__canvas.create_image(self.__x, self.__y, image=self.__skin_up, anchor=  NW)
+        self.id = self.__canvas.create_image(self.__x, self.__y, image=skin.get ('file_up'), anchor=  NW)
 
     def __repaint(self):
         self.__canvas.moveto(self.id, x = world.get_screen_x(self.__x),y = world.get_screen_y(self.__y))
@@ -171,8 +172,14 @@ class Tank:
 
     #@staticmethod
     def get_size(self):
-        return self.__skin_up.width()
-
+        return skin.get('file_up').width()
+    def __del__(self):
+        print('Танк удалён')
+        Tank.__count -= 1
+        try:
+            self.__canvas.delete(self.id)
+        except Exception:
+            pass
 
     def __str__(self):
         return(f'Координаты:{self.__x , self.__y},модель:{self.model},Здоровье:{self.__hp},Боеприпасы:{self.__ammo},опыт({self.__xp}')
