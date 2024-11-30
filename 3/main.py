@@ -1,67 +1,85 @@
+# Управление текстурами
+
 from tank import Tank
 from tkinter import*
+
 import world
 import tanks_collection
+#2 подключение библиотеки texture
 import texture
+
+
+KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN = 37, 39, 38, 40
+
 KEY_W = 87
-KEY_A= 83
-KEY_S= 65
-KEY_D= 68
-KEY_UP =38
-KEY_DOWN=40
-KEY_RIGHT=39
-KEY_LEFT = 37
-KEY_SPACE = 32
+KEY_S = 83
+KEY_A = 65
+KEY_D = 68
 
-FPS = 90
+
+FPS = 60
 def update():
-
     tanks_collection.update()
     player = tanks_collection.get_player()
+    world.set_camera_xy(player.get_x()-world.SCREEN_WIDTH//2 + player.get_size()//2,
+                        player.get_y()-world.SCREEN_HEIGHT//2 + player.get_size()//2)
+    w.after(1000//FPS, update)
 
-    world.set_camera_xy(player.get_x()-world.SCREEN_WIDTH//2+player.get_size()//2,player.get_y()-world.SCREEN_HEIGHT//2+player.get_size())
-    w.after(1000//FPS,update)
-def check_collision():
-    pass
 
 
 def key_press(event):
     player = tanks_collection.get_player()
     if event.keycode == KEY_W:
-        player.forward()
-    elif event.keycode == KEY_A:
-        player.backward()
+        player.forvard()
     elif event.keycode == KEY_S:
+        player.backward()
+    elif event.keycode == KEY_A:
         player.left()
-
     elif event.keycode == KEY_D:
-
-
         player.right()
     elif event.keycode == KEY_UP:
-        world.move_camera(delta_x=0,delta_y=-5)
+        world.move_camera(0, -5)
     elif event.keycode == KEY_DOWN:
-        world.move_camera(delta_x=0,delta_y= 5)
-    elif event.keycode == KEY_RIGHT:
-        world.move_camera(delta_x=5,delta_y= 0)
-
+        world.move_camera(0, 5)
     elif event.keycode == KEY_LEFT:
-        world.move_camera(delta_x=-5, delta_y=0)
+        world.move_camera(-5, 0)
+    elif event.keycode == KEY_RIGHT:
+        world.move_camera(5, 0)
+
+        #2 спавн танков по пробелу
     elif event.keycode == 32:
         tanks_collection.spawn_enemy()
-def load_textures():
-    texture.load('file_up', '../img/forward.png')
-    texture.load('file_down', '../img/down.png')
-    texture.load('file_left', '../img/left.png')
-    texture.load('file_right', '../img/right.png')
+
+# 3 функция для загрузки всех изображений
+def load_textures():      # вызывать сразу после создания окна
+    # pass
+    texture.load('tank_up',
+                 '../img/forward.png')
+    texture.load('tank_down',
+                 '../img/down.png')
+    texture.load('tank_left',
+                 '../img/left.png')
+    texture.load('tank_right',
+                 '../img/right.png')
+    texture.load(world.BRICK,'../img/brick.png')
+    texture.load(world.CONCRETE,'../img/wall.png')
+    texture.load(world.WATER, '../img/water.png')
+
+
+
 
 w = Tk()
-w.title('Таник на минималках 2.0')
 
-canv = Canvas(w, width = world.SCREEN_WIDTH, height = world.SCREEN_HEIGHT,bg = 'alice blue')
+# 4  вызвать load_textures сразу после сщздания окна
+load_textures()
+
+w.title('Танки на минималках 2.0')
+canv = Canvas(w, width=world.SCREEN_WIDTH, height=world.SCREEN_HEIGHT, bg = 'ForestGreen')
 canv.pack()
-
+world.initialize(canv)
 tanks_collection.initialize(canv)
-w.bind('<KeyPress>',key_press)
+
+w.bind('<KeyPress>', key_press)
+
 update()
 w.mainloop()
