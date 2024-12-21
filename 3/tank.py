@@ -36,7 +36,7 @@ class Tank:
         self.__hp = 100
         self.__xp = 0
         self.__ammo = ammo
-        self.__fuel = 10000
+        self.__fuel = 10000000000000000000000000000000000000000000000000000000000000000000
         self.__speed = speed
         self.__x = x
         self.__y = y
@@ -64,7 +64,8 @@ class Tank:
         self.__set_usual_speed()
         result = self.__hitbox.check_map_collision(details)
         if result:
-            if details['block']==world.WATER:
+            #if details['block']==world.WATER:
+            if world.WATER in details and len(details) == 1:
                 self.__set_water_speed()
             else:
                 self.__undo_move()

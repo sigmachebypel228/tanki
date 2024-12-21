@@ -48,8 +48,8 @@ def key_press(event):
         world.move_camera(5, 0)
 
         #2 спавн танков по пробелу
-    elif event.keycode == 32:
-        tanks_collection.spawn_enemy()
+    #elif event.keycode == 32:
+      #  tanks_collection.spawn_enemy()
 
 # 3 функция для загрузки всех изображений
 def load_textures():      # вызывать сразу после создания окна

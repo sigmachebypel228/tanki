@@ -22,12 +22,16 @@ def update_cell(row,col):
     if  row < 0 or col < 0 or row >= get_rows() or col >= get_cols():
         return
     _map[row][col].update()
-def update_map():
+def update_map(all = False):
     first_row = get_row(_camera_y)
     last_row = get_row(_camera_y + SCREEN_HEIGHT-1)
     first_col = get_row(_camera_x)
     last_col = get_row(_camera_x + SCREEN_WIDTH - 1)
-
+    if all :
+        first_row = 0
+        first_col = 0
+        last_row = get_rows()-1
+        last_col = get_cols() - 1
 
     for i in range(first_row, last_row+1):
         for j in range(first_col, last_col +1):
@@ -83,9 +87,14 @@ def set_camera_xy(x, y):
         x =  get_width()- SCREEN_WIDTH
     if y > get_height() - SCREEN_HEIGHT:
         y = get_height() - SCREEN_HEIGHT
+    update_all = True
+    if abs(_camera_x -x)>=BLOCK_SIZE or abs (_camera_y-y)>=BLOCK_SIZE :
+        update_all = True
 
     _camera_x = x
     _camera_y = y
+    if update_all:
+        update_map(all=True)
 
 def move_camera(delta_x, delta_y):
     set_camera_xy(_camera_x + delta_x, _camera_y + delta_y)
