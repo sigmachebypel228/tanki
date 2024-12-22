@@ -13,6 +13,21 @@ SCREEN_HEIGHT = 800
 _canvas = None
 _map = []
 AIR = 'a'
+def load_map(file_name):
+    global _map
+    _map = []
+    f = open(file_name)
+    with open(file_name) as f:
+        i=0
+        for line in f:
+            blocks = line.strip()
+            row = []
+            for j in range( len(blocks)):
+                cell = _Cell(_canvas, blocks[j], j * BLOCK_SIZE, i * BLOCK_SIZE)
+                row.append(cell)
+            _map.append(row)
+            i+=1
+    f.close()
 def get_block(row,col):
     if row < 0 or col < 0 or row >= get_rows() or col >= get_cols():
         return AIR
@@ -55,7 +70,7 @@ def get_cols():
 
 def get_rows():
     return len(_map)
-def create_world(rows = 20,cols = 20):
+def create_map(rows = 20,cols = 20):
     global _map
     _map = []
     for i in range(rows):
@@ -72,9 +87,9 @@ def create_world(rows = 20,cols = 20):
 
 def initialize(canv):
     global _canvas,_map
-
     _canvas = canv
-    create_world(20,20)
+  #  create_map(20,20)
+    load_map('../home_work/map/1.tmap')
 def set_camera_xy(x, y):
     global _camera_x, _camera_y
 
