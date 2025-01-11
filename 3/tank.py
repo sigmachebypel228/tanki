@@ -250,7 +250,6 @@ class Tank:
 
 
     def __del__(self):
-        print(f'удален танк')
         try:
             self.__canvas.delete(self.__id)
         except Exception:

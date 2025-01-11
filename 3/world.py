@@ -150,7 +150,7 @@ class _Cell:
         self.__y = y
         self.__create_element(block)
     def take(self):
-        block = self.set_block()
+        block = self.get_block()
         if block == MISSLE:
             self.set_block(GROUND)
             return block
