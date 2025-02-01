@@ -14,4 +14,13 @@ def update():
             del _missles[i]
         else:
             _missles[i].update()
+def check_missle_collision(tank):
+    for missle in _missles:
+        if missle.get_owner() == tank:
+
+            continue
+        if missle.intersects(tank):
+            missle.destroy()
+            tank.damage(25)
+            return
 

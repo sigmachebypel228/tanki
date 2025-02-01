@@ -222,7 +222,7 @@ class Tank:
     def get_size(self):
         return skin.get('tank_up').width()
 
-    def __chek_out_of_world(self):
+    def __check_out_of_world(self):
         if self.__hitbox.left < 0 or \
                 self.__hitbox.top < 0 or \
                 self.__hitbox.right >= world.get_width() or \
