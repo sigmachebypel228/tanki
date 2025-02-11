@@ -42,6 +42,7 @@ class Unit:
         self._hp -= value
         if self._hp <= 0:
             self.destroy()
+            self._canvas.itemconfig(self._id, image=skin.get(self._destroy_image))
 
 
 
@@ -53,7 +54,7 @@ class Unit:
         self._destroyed = True
         self.stop()
         self._speed = 0
-        self._canvas.itemconfig(self._id, image=skin.get(self._destroy_image))
+
 
 
 

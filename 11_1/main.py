@@ -33,6 +33,7 @@ def update():
 def key_press(event):
     player = tanks_collection.get_player()
     if player.is_destroyed():
+
         return
 
     if event.keycode == KEY_W:
@@ -62,7 +63,11 @@ def load_textures():
     texture.load('tank_up', '../img/tank_up.png')
     texture.load('tank_left', '../img/tank_left.png')
     texture.load('tank_right', '../img/tank_right.png')
-
+    texture.load('hpbar_0','../img/0.png ')
+    texture.load('hpbar_25', '../img/25.png ')
+    texture.load('hpbar_50', '../img/50.png ')
+    texture.load('hpbar_75', '../img/75.png ')
+    texture.load('hpbar_100', '../img/100.png ')
     texture.load ('tank_down_player', '../img/tank_down_player.png')
     texture.load('tank_up_player', '../img/tank_up_player.png')
     texture.load('tank_left_player', '../img/tank_left_player.png')
