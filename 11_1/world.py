@@ -1,5 +1,5 @@
 
-
+import tank
 import  texture
 from tkinter import NW
 from  random import randint, choice

@@ -9,7 +9,7 @@ from random import randint
 import missle_collection
 
 class Unit:
-    def __init__(self, canvas, x,y, speed, padding, bot, default_image,tank_destroy,hp0,hp25,hp50,hp75,hp100):
+    def __init__(self, canvas, x,y, speed, padding, bot, default_image,tank_destroy):
 
         self._destroyed = False
 
@@ -48,6 +48,7 @@ class Unit:
 
 
 
+
     def is_destroyed(self):
         return self._destroyed
 
@@ -55,6 +56,7 @@ class Unit:
         self._destroyed = True
         self.stop()
         self._speed = 0
+
 
 
 
@@ -192,13 +194,7 @@ class Tank(Unit):
                          2,
                          8,
                          bot,
-                         'tank_up',
-                         'tank_destroy',
-                         'hpbar_100' ,
-                         'hpbar_75',
-                         'hpbar_50',
-                         'hpbar_25',
-                         'hpbar_0')
+                         'tank_up' ,'tank_destroy')
         if bot:
 
             self._forward_image = 'tank_up'
@@ -221,28 +217,28 @@ class Tank(Unit):
         #     self._right_image = 'tank_right_player'
         #     self._forward_image = 'tank_forward_player'
         #     self._backward_image = 'tank_backward_player'
-        self._hp0 = 'hpbar_0'
-        self._hp25 = 'hpbar_25'
-        self._hp50 = 'hpbar_50'
-        self._hp75 = 'hpbar_75'
-        self._hp100 = 'hpbar_100'
+        # self._hp0 = 'hpbar_0'
+        # self._hp25 = 'hpbar_25'
+        # self._hp50 = 'hpbar_50'
+        # self._hp75 = 'hpbar_75'
+        # self._hp100 = 'hpbar_100'
         self.forvard()
         self._ammo = 80
         self._usual_speed = self._speed
         self._water_speed = self._speed//2
         self._target = None
-        self._id_hp_bar = canvas.create_image(20, 400, image=self._hp100, anchor=NW)
-    def hp_bar(self):
-        if self._hp == 100:
-            self._canvas.itemconfig(self._id_hp_bar, image=skin.get(self._hp100))
-        elif self._hp == 75:
-            self._canvas.itemconfig(self._id_hp_bar, image=skin.get(self._hp75))
-        elif self._hp == 50:
-            self._canvas.itemconfig(self._id_hp_bar, image=skin.get(self._hp50))
-        elif self._hp == 25:
-            self._canvas.itemconfig(self._id_hp_bar, image=skin.get(self._hp25))
-        elif self._hp == 0:
-            self._canvas.itemconfig(self._id_hp_bar, image=skin.get(self._hp0))
+       # self._id_hp_bar = canvas.create_image(20, 400, image=self._hp100, anchor=NW)
+    # #def hp_bar(self):
+    #     if self._hp == 100:
+    #         self._canvas.itemconfig(self._id_hp_bar, image=skin.get(self._hp100))
+    #     elif self._hp == 75:
+    #         self._canvas.itemconfig(self._id_hp_bar, image=skin.get(self._hp75))
+    #     elif self._hp == 50:
+    #         self._canvas.itemconfig(self._id_hp_bar, image=skin.get(self._hp50))
+    #     elif self._hp == 25:
+    #         self._canvas.itemconfig(self._id_hp_bar, image=skin.get(self._hp25))
+    #     elif self._hp == 0:
+    #         self._canvas.itemconfig(self._id_hp_bar, image=skin.get(self._hp0))
     def set_target(self, target):
         self._target = target
 

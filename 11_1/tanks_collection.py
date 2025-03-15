@@ -28,7 +28,7 @@ def _get_screen_text():
 
     if len(_tanks)== 1:
         return 'УРА.... ПОБЕДА...... УРА....... ПОБЕДА......'
-    return 'Осталось {}'.format(len(_tanks) - 1)
+    return f'Осталось {len(_tanks) - 1}\n Здоровье: {get_player()._hp}'
 def get_player():
     return _tanks[0]
 
